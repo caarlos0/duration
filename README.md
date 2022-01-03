@@ -2,7 +2,7 @@
 
 Copy of stdlib's `time.Duration`, but `ParseDuration` accepts other units as well:
 
-- `d`: days (`7 * 24 * time.Hour`)
+- `d`: days (`24 * time.Hour`)
 - `w`: weeks (`7 * Day`)
 - `mo`: months (`30 * Day`)
 - `y`: years (`365 * Day`)
