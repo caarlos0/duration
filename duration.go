@@ -75,21 +75,6 @@ func leadingFraction(s string) (x int64, scale float64, rem string) {
 	return x, scale, s[i:]
 }
 
-var unitKeys = []string{
-	"ns",
-	"us",
-	"µs",
-	"μs",
-	"ms",
-	"s",
-	"m",
-	"h",
-	"d",
-	"w",
-	"mo",
-	"y",
-}
-
 var unitMap = map[string]int64{
 	"ns": int64(time.Nanosecond),
 	"us": int64(time.Microsecond),
@@ -103,6 +88,24 @@ var unitMap = map[string]int64{
 	"w":  int64(Week),
 	"mo": int64(Month),
 	"y":  int64(Year),
+}
+
+// ValidUnits returns the list of units the library supports.
+func ValidUnits() []string {
+	return []string{
+		"ns",
+		"us",
+		"µs",
+		"μs",
+		"ms",
+		"s",
+		"m",
+		"h",
+		"d",
+		"w",
+		"mo",
+		"y",
+	}
 }
 
 // ParseDuration parses a duration string.
@@ -217,7 +220,7 @@ func Parse(s string) (time.Duration, error) {
 
 func quotedUnitMapKeys() string {
 	var keys []string
-	for _, k := range unitKeys {
+	for _, k := range ValidUnits() {
 		keys = append(keys, quote(k))
 	}
 	return strings.Join(keys, ", ")

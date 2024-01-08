@@ -93,7 +93,7 @@ func TestParseInvalidDuration(t *testing.T) {
 }
 
 func TestKeysLen(t *testing.T) {
-	k := len(unitKeys)
+	k := len(ValidUnits())
 	m := len(unitMap)
 	if k != m {
 		t.Fatalf("unitKeys: %v, unitMap: %v, both should have the same lenght", k, m)
