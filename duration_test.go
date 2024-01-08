@@ -80,3 +80,22 @@ func TestParseDuration(t *testing.T) {
 		}
 	}
 }
+
+func TestParseInvalidDuration(t *testing.T) {
+	_, err := Parse("30x")
+	if err == nil {
+		t.Fatal("expected an error")
+	}
+	expect := `time: unknown unit "x" in duration "30x". Valid units are "ns", "us", "µs", "μs", "ms", "s", "m", "h", "d", "w", "mo", "y"`
+	if err.Error() != expect {
+		t.Errorf("ParseDuration(30x): %v, expected %v", err.Error(), expect)
+	}
+}
+
+func TestKeysLen(t *testing.T) {
+	k := len(unitKeys)
+	m := len(unitMap)
+	if k != m {
+		t.Fatalf("unitKeys: %v, unitMap: %v, both should have the same lenght", k, m)
+	}
+}

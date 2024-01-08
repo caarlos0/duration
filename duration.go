@@ -6,6 +6,7 @@ package duration
 
 import (
 	"errors"
+	"strings"
 	"time"
 )
 
@@ -72,6 +73,21 @@ func leadingFraction(s string) (x int64, scale float64, rem string) {
 		scale *= 10
 	}
 	return x, scale, s[i:]
+}
+
+var unitKeys = []string{
+	"ns",
+	"us",
+	"µs",
+	"μs",
+	"ms",
+	"s",
+	"m",
+	"h",
+	"d",
+	"w",
+	"mo",
+	"y",
 }
 
 var unitMap = map[string]int64{
@@ -170,7 +186,7 @@ func Parse(s string) (time.Duration, error) {
 		s = s[i:]
 		unit, ok := unitMap[u]
 		if !ok {
-			return 0, errors.New("time: unknown unit " + quote(u) + " in duration " + quote(orig))
+			return 0, errors.New("time: unknown unit " + quote(u) + " in duration " + quote(orig) + ". Valid units are " + quotedUnitMapKeys())
 		}
 		if v > (1<<63-1)/unit {
 			// overflow
@@ -197,4 +213,12 @@ func Parse(s string) (time.Duration, error) {
 		d = -d
 	}
 	return time.Duration(d), nil
+}
+
+func quotedUnitMapKeys() string {
+	var keys []string
+	for _, k := range unitKeys {
+		keys = append(keys, quote(k))
+	}
+	return strings.Join(keys, ", ")
 }
